@@ -1,0 +1,41 @@
+tr:hover{
+	color: blue;
+	
+}
+
+table{
+	font-size: .9em;
+	table-layout: auto;
+}
+
+th,td{
+	width: auto;
+	line-height: 1.3em;
+}
+
+.content-table{
+	max-width: 100%;
+	margin : 0;
+}
+
+img.icon{
+	height: 32;
+	width: 32;
+}
+
+/* Classes for button sizes */
+.button-xsmall {
+	font-size: 70%;
+}
+
+.button-small {
+	font-size: 85%;
+}
+
+.button-large {
+	font-size: 110%;
+}
+
+.button-xlarge {
+	font-size: 125%;
+}
