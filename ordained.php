@@ -1,11 +1,24 @@
-<?php include_once 'includes/header.html'; ?>
+<?php include_once 'includes/header.html'; 
+require_once 'db/security.php';
 
+
+if(isset($_POST['action'])){
+    if(get_post('action') == 'addOrdained'){
+        require_once 'db/AlumniDB.php';
+        // name, birthday, years, phone, fax, mobile, email, address
+        AlumniDB::insertOrdained();
+    }else{
+
+    }
+}
+?>
 <main id="main">
     <section class="content">
         <header class="header">
             <h1>Add Ordained</h1>
         </header>
-        <form action="#" class="pure-form pure-form-stacked">
+        <form action="ordained.php" class="pure-form pure-form-stacked" method="post">
+            <input type="hidden" name="action" value="addOrdained">
             <fieldset>
                 <div class="pure-control-group">
                     <div class="pure-g">
@@ -18,9 +31,6 @@
                             <input type="date" class="pure-u-4-5" name="birthday">
                             <label>Ordination Date</label>
                             <input type="date" class="pure-u-4-5" name="ordination">
-                            
-
-                            
                         </div>
                         <div class="pure-u-1-3">
                         <label>Phone</label>
@@ -35,7 +45,7 @@
                     </div>
                 </div>  
                 <label>Address</label>
-                <input type="text" class="pure-input-1" name="diocese" placeholder="(Seminary Road, Ateneo de Manila University Katipunan, Quezon City, Philippines)">
+                <input type="text" class="pure-input-1" name="address" placeholder="(Seminary Road, Ateneo de Manila University Katipunan, Quezon City, Philippines)">
                 <br><input class="pure-u-1 pure-button pure-button-primary button-large" type="submit" value="Save" id="save" >
             </fieldset>   
         </form>

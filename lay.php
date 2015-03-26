@@ -1,11 +1,25 @@
-<?php include_once 'includes/header.html'; ?>
+<?php include_once 'includes/header.html'; 
+require_once 'db/security.php';
+
+
+if(isset($_POST['action'])){
+    if(get_post('action') == 'addLay'){
+        require_once 'db/AlumniDB.php';
+        // name, birthday, years, phone, fax, mobile, email, address
+        AlumniDB::insertLay();
+    }else{
+
+    }
+}
+?>
 
 <main id="main">
     <section class="content">
         <header class="header">
             <h1>Add Lay</h1>
         </header>
-        <form action="#" class="pure-form pure-form-stacked">
+        <form action="lay.php" class="pure-form pure-form-stacked" method="post">
+            <input type="hidden" name="action" value="addLay">
             <fieldset>
                 <div class="pure-control-group">
                     <div class="pure-g">
@@ -14,6 +28,7 @@
                             <input type="text" class="pure-u-4-5" name="name" required placeholder="Name (Lastname, Firstname)">
                             <label>Birthday</label>
                             <input type="date" class="pure-u-4-5" name="birthday">
+                            <p>Note: 0001 for unknown years</p>
                             <label>Years in San Jose</label>
                             <input type="text" class="pure-u-4-5" name="years" placeholder="2004-2005">
                             <label>Phone</label>
@@ -31,9 +46,9 @@
                     </div>
                 </div>  
                 <label>Address</label>
-                <input type="text" class="pure-u-1" name="diocese" placeholder="(Seminary Road, Ateneo de Manila University Katipunan, Quezon City, Philippines)">
+                <input type="text" class="pure-u-1" name="address" placeholder="(Seminary Road, Ateneo de Manila University Katipunan, Quezon City, Philippines)">
                 <br>
-                <input class="pure-u-1 pure-button pure-button-primary button-large" type="submit" value="Save" id="save" >
+                <input class="pure-u-1 pure-button pure-button-primary button-large" type="submit" value="Save" id="save">
             </fieldset>   
         </form>
         
