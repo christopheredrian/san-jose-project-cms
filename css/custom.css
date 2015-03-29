@@ -18,9 +18,12 @@ th,td{
 	margin : 0;
 }
 
-img.icon{
-	height: 32;
-	width: 32;
+input[type=image]{
+	height: 32px;
+	width: 32px;
+}
+form{
+	display: inline;
 }
 
 /* Classes for button sizes */

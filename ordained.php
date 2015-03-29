@@ -1,8 +1,7 @@
 <?php
-
 include_once 'includes/header.html';
 require_once 'db/security.php';
-
+require_once 'db/AlumniDB.php';
 if (isset ( $_POST ['action'] )) {
 	if (get_post ( 'action' ) == 'addOrdained') {
 		require_once 'db/AlumniDB.php';
@@ -10,6 +9,9 @@ if (isset ( $_POST ['action'] )) {
 		AlumniDB::insertOrdained ();
 	} else {
 	}
+}
+if (isset ( $_POST ['delete_id'] )) {
+	AlumniDB::delete ( 'ordained', get_post ( 'delete_id' ) );
 }
 ?>
 <main id="main">
@@ -47,18 +49,18 @@ if (isset ( $_POST ['action'] )) {
 			<label>Address</label> <input type="text" class="pure-input-1"
 				name="address"
 				placeholder="(Seminary Road, Ateneo de Manila University Katipunan, Quezon City, Philippines)">
-			<br>
-			<input class="pure-u-1 pure-button pure-button-primary button-large"
+			<br> <input
+				class="pure-u-1 pure-button pure-button-primary button-large"
 				type="submit" value="Save" id="save">
 		</fieldset>
 	</form>
 
 </section>
-<hr>
+<hr id="ordainedLink">
 <header class="header">
 	<h1>Ordained</h1>
 </header>
-<section class="content content-table" id="ordainedLink">
+<section class="content content-table">
 	<table class="pure-table pure-table-bordered">
 		<!--           <colgroup>
           <col width="50%">
@@ -80,96 +82,48 @@ if (isset ( $_POST ['action'] )) {
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td>Cee Es</td>
-				<td>San Fernando</td>
-				<td>January 12, 1967</td>
-				<td>January 24, 1988</td>
-				<td>132 hernandez st.</td>
-				<td>09322233213</td>
-				<td>09322233213</td>
-				<td>09322233213</td>
-				<td>es@gam.com</td>
+		<?php
+		
+		$result = AlumniDB::getOrdained ();
+		if ($result->num_rows > 0) {
+			// output data of each row
+			while ( $row = $result->fetch_assoc () ) {
+				echo '<tr>';
+				// echo "id: " . $row["id"]. " - Name: " . $row["firstname"]. " " . $row["lastname"]. "<br>";
+				echo '<td>' . $row ['name'] . '</td>';
+				echo '<td>' . $row ['diocese'] . '</td>';
+				echo '<td>' . $row ['birthday'] . '</td>';
+				echo '<td>' . $row ['ordination'] . '</td>';
+				echo '<td>' . $row ['address'] . '</td>';
+				echo '<td>' . $row ['phone'] . '</td>';
+				echo '<td>' . $row ['fax'] . '</td>';
+				echo '<td>' . $row ['mobile'] . '</td>';
+				echo '<td>' . $row ['email'] . '</td>';
+				?>
 				<td>
-					<form action="demo_form.asp">
-						<!-- HIDDEN id here -->
-						<input type="image" src="images/favicon.png" alt="Submit"> <input
-							type="image" src="images/favicon.png" alt="Submit">
-					</form>
-				</td>
-			</tr>
-			<tr>
-				<td>Cee Es</td>
-				<td>San Fernando</td>
-				<td>January 12, 1967</td>
-				<td>January 24, 1988</td>
-				<td>132 hernandez st.</td>
-				<td>09322233213</td>
-				<td>09322233213</td>
-				<td>09322233213</td>
-				<td>es@gam.com</td>
-				<td>es@gam.com</td>
-			</tr>
-			<tr>
-				<td>Espiritu, Christopher Edrian L.</td>
-				<td>San Fernando</td>
-				<td>January 12, 1967</td>
-				<td>January 24, 1988</td>
-				<td>132 hernandez st.</td>
-				<td>09322233213</td>
-				<td>09322233213</td>
-				<td>09322233213</td>
-				<td>es@gam.com</td>
-				<td>es@gam.com</td>
-			</tr>
-			<tr>
-				<td>Cee Es</td>
-				<td>San Fernando</td>
-				<td>January 12, 1967</td>
-				<td>January 24, 1988</td>
-				<td>132 hernandez st. Desktop test angeles ond das wa lorem ipsum</td>
-				<td>09322233213</td>
-				<td>09322233213</td>
-				<td>09322233213</td>
-				<td>es@gam.com</td>
-				<td>es@gam.com</td>
-			</tr>
-			<tr>
-				<td>Cee Es</td>
-				<td>San Fernando</td>
-				<td>January 12, 1967</td>
-				<td>January 24, 1988</td>
-				<td>132 hernandez st.</td>
-				<td>09322233213</td>
-				<td>09322233213</td>
-				<td>09322233213</td>
-				<td>es@gam.com</td>
-				<td>
-					<form action="demo_form.asp">
-						<!-- HIDDEN id here -->
-						<input type="image" src="images/favicon.png" alt="Submit"> <input
-							type="image" src="images/favicon.png" alt="Submit">
-					</form>
-				</td>
-			</tr>
-			<tr>
-				<td>Cee Es</td>
-				<td>San Fernando</td>
-				<td>January 12, 1967</td>
-				<td>January 24, 1988</td>
-				<td>132 hernandez st.</td>
-				<td>09322233213</td>
-				<td>09322233213</td>
-				<td>09322233213</td>
-				<td>es@gam.com</td>
-				<td>
-					<form action="demo_form.asp">
-						<!-- HIDDEN id here -->
-						<input type="image" src="images/favicon.png" alt="Submit"> <input
-							type="image" src="images/favicon.png" alt="Submit">
-					</form>
-				</td>
-			</tr>
+				<form action="ordained.php#ordainedLink" method="post">
+					<!-- HIDDEN id here -->
+					<input type="hidden" name="delete_id"
+						value="<?php echo $row['id'];?>"> <input type="image"
+						src="images/delete.png" alt="delete" title="delete"
+						onclick="return confirm('Are you sure you want to delete this item?');">
+				</form>
+				<form action="edit.php" method="post">
+					<input type="hidden" name="edit_id"
+						value="<?php echo $row['id'];?>"> <input type="image"
+						src="images/edit.png" alt="edit" title="edit">
+				</form>
+
+			</td>
+				<?php
+				echo '</tr>';
+				// echo print_r ( $row );
+			}
+		} else {
+			echo "0 results";
+		}
+		
+		?>
 		</tbody>
 
 	</table>
