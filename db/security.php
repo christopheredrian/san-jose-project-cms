@@ -47,6 +47,8 @@ function sanitize_string($var)
 function sanitize_mysql($connection, $var)
 {
     $var = $connection->real_escape_string($var);
-    $var = sanitize_string($var);
+    // Check
+    // http://stackoverflow.com/questions/1970880/store-html-entities-in-database-or-convert-when-retrieved
+    //$var = sanitize_string($var);	
     return $var;
 }

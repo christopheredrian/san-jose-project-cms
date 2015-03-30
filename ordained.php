@@ -3,15 +3,16 @@ include_once 'includes/header.html';
 require_once 'db/security.php';
 require_once 'db/AlumniDB.php';
 if (isset ( $_POST ['action'] )) {
-	if (get_post ( 'action' ) == 'addOrdained') {
+	$action = get_post('action');
+	echo $action;
+	if ($action == 'addOrdained') {
 		require_once 'db/AlumniDB.php';
-		// name, birthday, years, phone, fax, mobile, email, address
 		AlumniDB::insertOrdained ();
-	} else {
+	} else if ($action == 'delete') {
+		AlumniDB::delete ( 'ordained', get_post ( 'delete_id' ) );
+	}elseif ($action == 'editOrdained'){
+		AlumniDB::editOrdained();
 	}
-}
-if (isset ( $_POST ['delete_id'] )) {
-	AlumniDB::delete ( 'ordained', get_post ( 'delete_id' ) );
 }
 ?>
 <main id="main">
@@ -103,12 +104,15 @@ if (isset ( $_POST ['delete_id'] )) {
 				<td>
 				<form action="ordained.php#ordainedLink" method="post">
 					<!-- HIDDEN id here -->
+					<input type="hidden" name="action" value="delete">
 					<input type="hidden" name="delete_id"
 						value="<?php echo $row['id'];?>"> <input type="image"
 						src="images/delete.png" alt="delete" title="delete"
 						onclick="return confirm('Are you sure you want to delete this item?');">
 				</form>
-				<form action="edit.php" method="post">
+				<form action="editOrdained.php" method="post">
+				<input type="hidden" name="edit_id"
+						value="<?php echo $row['id'];?>">
 					<input type="hidden" name="edit_id"
 						value="<?php echo $row['id'];?>"> <input type="image"
 						src="images/edit.png" alt="edit" title="edit">

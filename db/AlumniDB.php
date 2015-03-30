@@ -96,9 +96,8 @@ class AlumniDB {
 		$conn->close ();
 		return $result;
 	}
-	
 	public static function delete($table, $id) {
-		if (is_int ( $id ) || $table === 'ordained' || $table === 'lay') {
+		if (self::arguments_valid($table,$id)) {
 			require 'login.php';
 			// Create connection
 			$conn = new mysqli ( $db_hostname, $db_username, $db_password, $db_database );
@@ -115,10 +114,103 @@ class AlumniDB {
 			}
 			
 			$conn->close ();
-		}else{
+		} else {
 			echo "Error deleting record: Method args invalid";
 		}
+	}
+	public static function get($table, $id) {
+		if (self::arguments_valid($table,$id)) {
+			require 'login.php';
+			$conn = new mysqli ( $db_hostname, $db_username, $db_password, $db_database );
+			if ($conn->connect_error) {
+				die ( "Connection failed: " . $conn->connect_error );
+			}
+			$sql = "SELECT * FROM $table WHERE id = $id";
+			$result = $conn->query ( $sql );
+			$conn->close ();
+			if ($result->num_rows == 1) {
+				return $result->fetch_assoc (); // Return the row
+			} else {
+				echo "Error in getting record: More than one row";
+			}
+		} else {
+			echo "Error in getting record: Method args invalid";
+		}
+	}
+	/**
+	 * @param table
+	 * @param id
+	 */private static function arguments_valid($table, $id) {
+		return is_int ( $id ) || $table === 'ordained' || $table === 'lay';
+	}
+
+	public static function editLay() {
+		require 'login.php';
+		$conn = new mysqli ( $db_hostname, $db_username, $db_password, $db_database );
+		if ($conn->connect_error) {
+			die ( "Connection failed: " . $conn->connect_error );
+		}
+		$id = sanitize_mysql ( $conn, $_POST ['id'] );
+		$name = sanitize_mysql ( $conn, $_POST ['name'] );
+		$birthday = sanitize_mysql ( $conn, $_POST ['birthday'] );
+		$years_present = sanitize_mysql ( $conn, $_POST ['years_present'] );
+		$phone = sanitize_mysql ( $conn, $_POST ['phone'] );
+		$fax = sanitize_mysql ( $conn, $_POST ['fax'] );
+		$mobile = sanitize_mysql ( $conn, $_POST ['mobile'] );
+		$email = sanitize_mysql ( $conn, $_POST ['email'] );
+		$address = sanitize_mysql ( $conn, $_POST ['address'] );
+		// name, birthday, years_present, phone, fax, mobile, email, address
+		$sql = "UPDATE lay SET name='$name',
+				birthday = '$birthday',
+				years_present = '$years_present',
+				phone = '$phone',
+				fax = '$fax',
+				mobile = '$mobile',
+				email = '$email',
+				address = '$address'
+				WHERE id=$id";
+		if ($conn->query($sql) === TRUE) {
+			echo "Record updated successfully";
+		} else {
+			echo "Error updating record: " . $conn->error;
+		}
 		
+		$conn->close();
+	}
+	public static function editOrdained() {
+		require 'login.php';
+		$conn = new mysqli ( $db_hostname, $db_username, $db_password, $db_database );
+		if ($conn->connect_error) {
+			die ( "Connection failed: " . $conn->connect_error );
+		}
+		$id = sanitize_mysql ( $conn, $_POST ['id'] );
+		$name = sanitize_mysql ( $conn, $_POST ['name'] );
+		$diocese = sanitize_mysql ( $conn, $_POST ['diocese'] );
+		$birthday = sanitize_mysql ( $conn, $_POST ['birthday'] );
+		$ordination = sanitize_mysql ( $conn, $_POST ['ordination'] );
+		$address = sanitize_mysql ( $conn, $_POST ['address'] );
+		$phone = sanitize_mysql ( $conn, $_POST ['phone'] );
+		$fax = sanitize_mysql ( $conn, $_POST ['fax'] );
+		$mobile = sanitize_mysql ( $conn, $_POST ['mobile'] );
+		$email = sanitize_mysql ( $conn, $_POST ['email'] );
+		// name, birthday, years, phone, fax, mobile, email, address
+		$sql = "UPDATE ordained SET name='$name',
+		diocese = '$diocese',
+		birthday = '$birthday',
+		ordination = '$ordination',
+		phone = '$phone',
+		fax = '$fax',
+		mobile = '$mobile',
+		email = '$email',
+		address = '$address'
+		WHERE id=$id";
+		if ($conn->query($sql) === TRUE) {
+			echo "Record updated successfully";
+		} else {
+			echo "Error updating record: " . $conn->error;
+		}
+	
+		$conn->close();
 	}
 }
 ?>

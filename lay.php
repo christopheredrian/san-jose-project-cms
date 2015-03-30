@@ -3,16 +3,18 @@ include_once 'includes/header.html';
 require_once 'db/security.php';
 require_once 'db/AlumniDB.php';
 if (isset ( $_POST ['action'] )) {
-	if (get_post ( 'action' ) == 'addLay') {
+	$action = get_post ( 'action' );
+	if ($action == 'addLay') {
 		require_once 'db/AlumniDB.php';
 		// name, birthday, years, phone, fax, mobile, email, address
 		AlumniDB::insertLay ();
-	} else {
+	} else if ($action == 'delete'){
+		AlumniDB::delete ( 'lay', get_post ( 'delete_id' ) );
+	} elseif ($action == 'editLay'){
+		AlumniDB::editLay();
 	}
 }
-if (isset ( $_POST ['delete_id'] )) {
-	AlumniDB::delete ( 'lay', get_post ( 'delete_id' ) );
-}
+
 ?>
 <main id="main">
 <section class="content">
@@ -94,21 +96,22 @@ if (isset ( $_POST ['delete_id'] )) {
 				echo '<td>' . $row ['name'] . '</td>';
 				echo '<td>' . $row ['birthday'] . '</td>';
 				echo '<td>' . $row ['years_present'] . '</td>';
+				echo '<td>' . $row ['address'] . '</td>';
 				echo '<td>' . $row ['phone'] . '</td>';
 				echo '<td>' . $row ['fax'] . '</td>';
 				echo '<td>' . $row ['mobile'] . '</td>';
 				echo '<td>' . $row ['email'] . '</td>';
-				echo '<td>' . $row ['address'] . '</td>';
 				?>
 				<td>
 				<form action="lay.php#layLink" method="post">
+					<input type="hidden" name="action" value="delete">
 					<!-- HIDDEN id here -->
 					<input type="hidden" name="delete_id"
 						value="<?php echo $row['id'];?>"> <input type="image"
 						src="images/delete.png" alt="Submit" title="delete"
 						onclick="return confirm('Are you sure you want to delete this item?');">
 				</form>
-				<form action="edit.php" method="post">
+				<form action="editLay.php" method="post">
 					<input type="hidden" name="edit_id"
 						value="<?php echo $row['id'];?>"> <input type="image"
 						src="images/edit.png" alt="Submit" title="edit">

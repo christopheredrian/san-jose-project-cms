@@ -42,3 +42,7 @@ form{
 .button-xlarge {
 	font-size: 125%;
 }
+
+.adjacent-buttons{
+	margin: 0 auto;
+}
