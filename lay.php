@@ -8,10 +8,10 @@ if (isset ( $_POST ['action'] )) {
 		require_once 'db/AlumniDB.php';
 		// name, birthday, years, phone, fax, mobile, email, address
 		AlumniDB::insertLay ();
-	} else if ($action == 'delete'){
+	} else if ($action == 'delete') {
 		AlumniDB::delete ( 'lay', get_post ( 'delete_id' ) );
-	} elseif ($action == 'editLay'){
-		AlumniDB::editLay();
+	} elseif ($action == 'editLay') {
+		AlumniDB::editLay ();
 	}
 }
 
@@ -61,8 +61,18 @@ if (isset ( $_POST ['action'] )) {
 <hr id="layLink">
 <header class="header">
 	<h1>Lay</h1>
-</header>
-<section class="content content-table">
+</header> <!-- Important for sorting id="lay" manipulated via javascript -->
+<section class="content content-table" id="lay">
+	<br> <br>
+	<div class="pure-form">
+		<input class="pure-input-rounded search" placeholder="Search" />
+		<button class="sort pure-button pure-button-active" data-sort="name">Sort
+			by name</button>
+		<button class="sort pure-button pure-button-active"
+			data-sort="birthday">Sort by birthday</button>
+		<br> <br>
+	</div>
+
 	<table class="pure-table pure-table-bordered">
 		<!--           <colgroup>
           <col width="50%">
@@ -82,8 +92,9 @@ if (isset ( $_POST ['action'] )) {
 				<th>Operations</th>
 			</tr>
 		</thead>
-		<tbody>
-
+		<!-- Important for sorting -->
+		<tbody class="list"> 
+		 
 		<?php
 		
 		$result = AlumniDB::getLay ();
@@ -93,14 +104,14 @@ if (isset ( $_POST ['action'] )) {
 			while ( $row = $result->fetch_assoc () ) {
 				echo '<tr>';
 				// echo "id: " . $row["id"]. " - Name: " . $row["firstname"]. " " . $row["lastname"]. "<br>";
-				echo '<td>' . $row ['name'] . '</td>';
-				echo '<td>' . $row ['birthday'] . '</td>';
-				echo '<td>' . $row ['years_present'] . '</td>';
-				echo '<td>' . $row ['address'] . '</td>';
-				echo '<td>' . $row ['phone'] . '</td>';
-				echo '<td>' . $row ['fax'] . '</td>';
-				echo '<td>' . $row ['mobile'] . '</td>';
-				echo '<td>' . $row ['email'] . '</td>';
+				echo '<td class="name">' . $row ['name'] . '</td>';
+				echo '<td class="birthday">' . $row ['birthday'] . '</td>';
+				echo '<td class="years_present">' . $row ['years_present'] . '</td>';
+				echo '<td class="address">' . $row ['address'] . '</td>';
+				echo '<td class="phone">' . $row ['phone'] . '</td>';
+				echo '<td class="fax">' . $row ['fax'] . '</td>';
+				echo '<td class="mobile">' . $row ['mobile'] . '</td>';
+				echo '<td class="email">' . $row ['email'] . '</td>';
 				?>
 				<td>
 				<form action="lay.php#layLink" method="post">

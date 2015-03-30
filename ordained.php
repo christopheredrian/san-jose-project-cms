@@ -61,7 +61,18 @@ if (isset ( $_POST ['action'] )) {
 <header class="header">
 	<h1>Ordained</h1>
 </header>
-<section class="content content-table">
+<section class="content content-table" id="ordained"><br><br>
+	<div class="pure-form">
+		<input class="pure-input-rounded search" placeholder="Search" />
+		<button class="sort pure-button pure-button-active" data-sort="name">Sort
+			by name</button>
+		<button class="sort pure-button pure-button-active"
+			data-sort="birthday">Sort by birthday</button>
+		<button class="sort pure-button pure-button-active"
+			data-sort="ordination">Sort by Ordination</button>
+		<br>
+		<br>
+	</div>
 	<table class="pure-table pure-table-bordered">
 		<!--           <colgroup>
           <col width="50%">
@@ -82,7 +93,7 @@ if (isset ( $_POST ['action'] )) {
 				<th>Operations</th>
 			</tr>
 		</thead>
-		<tbody>
+		<tbody class="list">
 		<?php
 		
 		$result = AlumniDB::getOrdained ();
@@ -91,15 +102,15 @@ if (isset ( $_POST ['action'] )) {
 			while ( $row = $result->fetch_assoc () ) {
 				echo '<tr>';
 				// echo "id: " . $row["id"]. " - Name: " . $row["firstname"]. " " . $row["lastname"]. "<br>";
-				echo '<td>' . $row ['name'] . '</td>';
-				echo '<td>' . $row ['diocese'] . '</td>';
-				echo '<td>' . $row ['birthday'] . '</td>';
-				echo '<td>' . $row ['ordination'] . '</td>';
-				echo '<td>' . $row ['address'] . '</td>';
-				echo '<td>' . $row ['phone'] . '</td>';
-				echo '<td>' . $row ['fax'] . '</td>';
-				echo '<td>' . $row ['mobile'] . '</td>';
-				echo '<td>' . $row ['email'] . '</td>';
+				echo '<td class="name">' . $row ['name'] . '</td>';
+				echo '<td class="diocese">' . $row ['diocese'] . '</td>';
+				echo '<td class="birthday">' . $row ['birthday'] . '</td>';
+				echo '<td class="ordination">' . $row ['ordination'] . '</td>';
+				echo '<td class="address">' . $row ['address'] . '</td>';
+				echo '<td class="phone">' . $row ['phone'] . '</td>';
+				echo '<td class="fax">' . $row ['fax'] . '</td>';
+				echo '<td class="mobile">' . $row ['mobile'] . '</td>';
+				echo '<td class="email">' . $row ['email'] . '</td>';
 				?>
 				<td>
 				<form action="ordained.php#ordainedLink" method="post">
