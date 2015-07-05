@@ -1,0 +1,14 @@
+{
+    "name": "cee/sjp",
+    "description": "App for San Joser seminary",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Christopher Espiritu",
+            "email": "christopheredrian@gmail.com"
+        }
+    ],
+    "require": {
+        "slim/slim": "~2.6"
+    }
+}
